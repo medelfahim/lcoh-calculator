@@ -47,3 +47,10 @@ console.log(r.lcoh, r.breakdown);
 ## Crédits
 
 Inspiré du calculateur open source de Rituraj Borah, moteur réécrit pour corriger les limites de l'architecture en blocs de 1000 heures.
+
+## Auteur et droits
+
+© 2026 **Mohamed EL FAHIM** — Tous droits réservés.
+
+Conception, développement et maintenance : Mohamed EL FAHIM ([@medelfahim](https://github.com/medelfahim)).
+Toute reproduction, redistribution ou réutilisation commerciale de ce projet, en tout ou partie, sans autorisation écrite de l'auteur est interdite.

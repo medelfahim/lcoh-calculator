@@ -3,54 +3,102 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calculateur LCOH</title>
-<meta name="description" content="Calculez le coût actualisé de l'hydrogène (LCOH) d'un projet d'électrolyse.">
+<title>Calculateur LCOH · Mohamed EL FAHIM</title>
+<meta name="description" content="Calculez le coût actualisé de l'hydrogène (LCOH) d'un projet d'électrolyse. Outil conçu par Mohamed EL FAHIM.">
+<meta name="author" content="Mohamed EL FAHIM">
+<meta name="copyright" content="© 2026 Mohamed EL FAHIM">
+<meta property="og:title" content="Calculateur LCOH — Mohamed EL FAHIM">
+<meta property="og:description" content="Coût actualisé de l'hydrogène vert : décomposition, sensibilité, scénarios partageables.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💧</text></svg>">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="top">
-  <div class="wrap">
-    <h1>Calculateur LCOH</h1>
-    <p class="sub">Coût actualisé de l'hydrogène par électrolyse · €/kg · monnaie constante, pré-impôt</p>
+  <div class="wrap top-row">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">H₂</div>
+      <div>
+        <h1>Calculateur LCOH</h1>
+        <p class="sub">Coût actualisé de l'hydrogène par électrolyse</p>
+      </div>
+    </div>
+    <div class="author">
+      <span class="author-label">Conçu et développé par</span>
+      <strong>Mohamed EL FAHIM</strong>
+    </div>
   </div>
 </header>
 
-<main class="wrap grid">
-  <form id="form" class="panel" novalidate>
-    <div id="fields"></div>
-    <div class="actions">
-      <button type="button" id="reset" class="ghost">Valeurs de référence</button>
+<main class="wrap">
+  <section class="toolbar panel">
+    <div class="presets">
+      <span class="tb-label">Scénario de départ</span>
+      <div class="seg" id="presets" role="group" aria-label="Scénarios"></div>
     </div>
-  </form>
-
-  <section class="results">
-    <div class="panel hero">
-      <div class="label">LCOH</div>
-      <div class="big"><span id="lcoh">–</span> <small>€/kg</small></div>
-      <div id="errors" class="errors" hidden></div>
-      <div class="kpis" id="kpis"></div>
-    </div>
-
-    <div class="panel">
-      <h2>Décomposition du coût</h2>
-      <div id="breakdown" class="bars"></div>
-    </div>
-
-    <div class="panel">
-      <h2>Sensibilité</h2>
-      <p class="note">Plages réalistes par variable (et non ±20 % uniforme, qui fausse le classement).</p>
-      <div id="tornado" class="tornado"></div>
-    </div>
-
-    <div class="panel">
-      <h2>Méthode</h2>
-      <p class="note">LCOH = (CAPEX actualisé + Σ coûts actualisés) / Σ production actualisée. Dégradation intégrée en continu sur les heures cumulées, remplacements de stack à leur date réelle (autant que nécessaire), CAPEX étalé sur la construction, valeur résiduelle et démantèlement en fin de vie. Les heures saisies sont des heures équivalentes pleine charge.</p>
+    <div class="tb-actions">
+      <button type="button" id="share" class="btn">Copier le lien du scénario</button>
+      <button type="button" id="csv" class="btn">Exporter CSV</button>
+      <button type="button" id="print" class="btn">Imprimer / PDF</button>
     </div>
   </section>
+
+  <div class="grid">
+    <form id="form" class="panel form" novalidate>
+      <div class="form-head">
+        <h2>Paramètres du projet</h2>
+        <p class="note">Le résultat se met à jour à chaque saisie. Passez sur <b>ⓘ</b> pour l'aide.</p>
+      </div>
+      <div id="fields"></div>
+    </form>
+
+    <section class="results">
+      <div class="panel hero">
+        <div>
+          <div class="label">LCOH du scénario</div>
+          <div class="big"><span id="lcoh">–</span> <small>€/kg H₂</small></div>
+          <div id="verdict" class="verdict"></div>
+        </div>
+        <div id="errors" class="errors" hidden></div>
+        <div class="kpis" id="kpis"></div>
+      </div>
+
+      <div class="panel">
+        <h2>D'où vient le coût ?</h2>
+        <p class="note">Contribution de chaque poste au LCOH, en €/kg et en part du total.</p>
+        <div id="breakdown" class="bars"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Quels paramètres comptent le plus ?</h2>
+        <p class="note">Variation du LCOH quand un seul paramètre bouge dans une plage réaliste. Les barres les plus longues sont à sourcer en priorité.</p>
+        <div id="tornado" class="tornado"></div>
+      </div>
+
+      <details class="panel method">
+        <summary><h2>Méthode et hypothèses</h2></summary>
+        <p>LCOH = (CAPEX actualisé + Σ coûts actualisés) / Σ production actualisée.</p>
+        <ul>
+          <li>Dégradation intégrée en continu sur les heures cumulées : m(h) = m₀ · (1 − d)<sup>h/1000</sup>.</li>
+          <li>Remplacements de stack comptés à leur date réelle, autant que nécessaire.</li>
+          <li>CAPEX étalé sur la période de construction (effet des intérêts intercalaires).</li>
+          <li>Valeur résiduelle et démantèlement en fin de vie.</li>
+          <li>Monnaie constante, taux d'actualisation réel, avant impôt sur les sociétés.</li>
+          <li>Les heures saisies sont des heures <b>équivalentes pleine charge</b>.</li>
+        </ul>
+        <p class="note">Les scénarios proposés sont illustratifs : ils ne remplacent pas une étude de projet sur données mesurées.</p>
+      </details>
+    </section>
+  </div>
 </main>
 
-<footer class="wrap foot">Calcul effectué entièrement dans votre navigateur · aucune donnée n'est envoyée.</footer>
+<footer class="foot">
+  <div class="wrap foot-row">
+    <span>© <span id="year">2026</span> <strong>Mohamed EL FAHIM</strong> — Tous droits réservés. Reproduction ou réutilisation sans autorisation interdite.</span>
+    <span>Calcul effectué dans votre navigateur · aucune donnée envoyée · <a href="https://github.com/medelfahim/lcoh-calculator">Code source</a></span>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>var module = { exports: {} };</script>
 <script src="src/engine.js"></script>
