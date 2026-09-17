@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculateur LCOH</title>
+<meta name="description" content="Calculez le coût actualisé de l'hydrogène (LCOH) d'un projet d'électrolyse.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💧</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Calculateur LCOH</h1>
+    <p class="sub">Coût actualisé de l'hydrogène par électrolyse · €/kg · monnaie constante, pré-impôt</p>
+  </div>
+</header>
+
+<main class="wrap grid">
+  <form id="form" class="panel" novalidate>
+    <div id="fields"></div>
+    <div class="actions">
+      <button type="button" id="reset" class="ghost">Valeurs de référence</button>
+    </div>
+  </form>
+
+  <section class="results">
+    <div class="panel hero">
+      <div class="label">LCOH</div>
+      <div class="big"><span id="lcoh">–</span> <small>€/kg</small></div>
+      <div id="errors" class="errors" hidden></div>
+      <div class="kpis" id="kpis"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Décomposition du coût</h2>
+      <div id="breakdown" class="bars"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Sensibilité</h2>
+      <p class="note">Plages réalistes par variable (et non ±20 % uniforme, qui fausse le classement).</p>
+      <div id="tornado" class="tornado"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Méthode</h2>
+      <p class="note">LCOH = (CAPEX actualisé + Σ coûts actualisés) / Σ production actualisée. Dégradation intégrée en continu sur les heures cumulées, remplacements de stack à leur date réelle (autant que nécessaire), CAPEX étalé sur la construction, valeur résiduelle et démantèlement en fin de vie. Les heures saisies sont des heures équivalentes pleine charge.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap foot">Calcul effectué entièrement dans votre navigateur · aucune donnée n'est envoyée.</footer>
+
+<script>var module = { exports: {} };</script>
+<script src="src/engine.js"></script>
+<script>window.LCOH = module.exports;</script>
+<script src="app.js"></script>
+</body>
+</html>
